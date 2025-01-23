@@ -12,6 +12,9 @@ const publishedTODO= computed(() => {
 
 
 
+watch(inputvalue, (newX) => {
+  console.log(`inputvalue ${newX}`)
+})
 
 const submit = (e) => {
     e.preventDefault()
