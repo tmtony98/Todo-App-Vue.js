@@ -1,10 +1,14 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import axios from "axios";
-
+import { computed ,watch } from 'vue';
 
 const inputvalue = ref("")
 const todoList = ref([])
+
+const publishedTODO= computed(() => {
+ return inputvalue.value == "tony" ? "yes" : "no"
+})
 
 
 
@@ -42,11 +46,13 @@ onMounted(() => {
                 <input id="exampleInput" v-model="inputvalue" aria-describedby="emailHelp" class="form-control"
                        placeholder="Add new" type="text">
                 <button class="btn btn-primary mx-2  " @click.prevent="$emit('someEvent', inputvalue)">Add</button>
+                
             </div>
             <!--            <ul v-for="list in todoList">-->
             <!--                <li>{{ list }}</li>-->
             <!--            </ul>-->
         </div>
+        <p class="">Entry is  tony - {{ publishedTODO }}</p>
     </form>
 
 </template>
