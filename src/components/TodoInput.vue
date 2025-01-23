@@ -1,18 +1,35 @@
 <script setup>
-import { computed, ref } from 'vue';
+import {onMounted, ref} from 'vue';
+import axios from "axios";
 
 
 const inputvalue = ref("")
+const todoList = ref([])
 
 
 
-    const submit = (e) => {
-        e.preventDefault()
-        localStorage.setItem("todoList", JSON.stringify(inputvalue))
-        console.log("btn clicked");
+
+const submit = (e) => {
+    e.preventDefault()
+    todoList.value.push(inputvalue.value)
+    localStorage.setItem("todoList", JSON.stringify(todoList.value))
+    //  sendData()
+    inputvalue.value = ''
+}
+
+const sendData = async () => {
+    const res = await  axios.post("http://localhost:3000/tasks",  {
+    task: "This is the new task for ID d44c"
+})
+    console.log(res)
+}
+
+onMounted(() => {
+    const storedTodoList = localStorage.getItem("todoList")
+    if (storedTodoList) {
+        todoList.value = JSON.parse(storedTodoList)
     }
-
-
+})
 </script>
 
 
@@ -20,14 +37,15 @@ const inputvalue = ref("")
 
     <form>
         <div class="mb-3 ">
-            <label for="exampleInput" class="form-label">Add new Todo</label>
+            <label class="form-label" for="exampleInput">Add new Todo</label>
             <div class="d-flex">
-                <input type="text" v-model="inputvalue" class="form-control" id="exampleInput"
-                    aria-describedby="emailHelp">
-                <button @click="submit" class="btn btn-primary mx-2  ">Add</button>
+                <input id="exampleInput" v-model="inputvalue" aria-describedby="emailHelp" class="form-control"
+                       placeholder="Add new" type="text">
+                <button class="btn btn-primary mx-2  " @click.prevent="$emit('someEvent', inputvalue)">Add</button>
             </div>
-            <!-- <p>{{ inputvalue }}</p> -->
-          
+            <!--            <ul v-for="list in todoList">-->
+            <!--                <li>{{ list }}</li>-->
+            <!--            </ul>-->
         </div>
     </form>
 
