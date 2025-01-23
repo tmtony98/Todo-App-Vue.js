@@ -26,7 +26,7 @@ function todo(value) {
                         <h3 class="text-primary"> To Do app</h3>
                     </div>
                     <div class="card-body">
-                        <TodoInput  @someEvent="todo"/>
+                        <TodoInput  @submit="todo"/>
                         <TodoList @send-value="handleValue"/>
                         <p>{{receivedValue}}</p>
                     </div>

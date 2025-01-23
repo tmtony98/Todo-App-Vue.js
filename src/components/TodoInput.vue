@@ -1,13 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import axios from "axios";
 
 
-const inputvalue = ref("")
-const todoList = ref([])
+const inputvalue = ref<string>("")
+const todoList = ref<string[]>([])
+
+const emit = defineEmits(['inFocus', 'submit'])
 
 
 
+function buttonClick() {
+  emit('submit',inputvalue.value  )
+}
 
 const submit = (e) => {
     e.preventDefault()
@@ -41,7 +46,7 @@ onMounted(() => {
             <div class="d-flex">
                 <input id="exampleInput" v-model="inputvalue" aria-describedby="emailHelp" class="form-control"
                        placeholder="Add new" type="text">
-                <button class="btn btn-primary mx-2  " @click.prevent="$emit('someEvent', inputvalue)">Add</button>
+                <button class="btn btn-primary mx-2  " @click.prevent='buttonClick'>Add</button>
             </div>
             <!--            <ul v-for="list in todoList">-->
             <!--                <li>{{ list }}</li>-->
