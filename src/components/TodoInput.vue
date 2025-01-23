@@ -6,21 +6,23 @@ import axios from "axios";
 const inputvalue = ref<string>("")
 const todoList = ref<string[]>([])
 
-const emit = defineEmits(['inFocus', 'submit'])
+// const emit = defineEmits(['inFocus', 'submit'])
 
+const emit = defineEmits<{
+  (event: 'submit', inputvalue: string): void
+}>()
 
+// function buttonClick() {
+//   emit('submit',inputvalue.value  )
+// }
 
-function buttonClick() {
-  emit('submit',inputvalue.value  )
-}
-
-const submit = (e) => {
-    e.preventDefault()
-    todoList.value.push(inputvalue.value)
-    localStorage.setItem("todoList", JSON.stringify(todoList.value))
-    //  sendData()
-    inputvalue.value = ''
-}
+// const submit = (e) => {
+//     e.preventDefault()
+//     todoList.value.push(inputvalue.value)
+//     localStorage.setItem("todoList", JSON.stringify(todoList.value))
+//     //  sendData()
+//     inputvalue.value = ''
+// }
 
 const sendData = async () => {
     const res = await  axios.post("http://localhost:3000/tasks",  {
@@ -46,7 +48,7 @@ onMounted(() => {
             <div class="d-flex">
                 <input id="exampleInput" v-model="inputvalue" aria-describedby="emailHelp" class="form-control"
                        placeholder="Add new" type="text">
-                <button class="btn btn-primary mx-2  " @click.prevent='buttonClick'>Add</button>
+                <button class="btn btn-primary mx-2  " @click.prevent="emit('submit',inputvalue)">Add</button>
             </div>
             <!--            <ul v-for="list in todoList">-->
             <!--                <li>{{ list }}</li>-->
